@@ -9,7 +9,7 @@ const state = {
 
 const mutations = {
     addReadcrunbList(breadcrunbList,newValues){
-        console.log(breadcrunbList,newValues);    
+        //console.log(breadcrunbList,newValues);    
         state.breadcrunbList[0] = newValues;
     }
 }

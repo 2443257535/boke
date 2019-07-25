@@ -10,7 +10,7 @@
       @select="selectedNav"
       router 
     >
-      <el-menu-item v-for="(item,index) in navList" :index="item.path" :key="index">{{ item.meta.title }}</el-menu-item>
+      <el-menu-item v-for="(item,index) in navList" :index="item.path" :key="index" v-show="item.meta.hidden">{{ item.meta.title }}</el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -24,12 +24,11 @@ export default {
     }
   },
   created(){
-    console.log(this.$route)
-    console.log(this.navList)
+
   },
   methods:{
     selectedNav(key,keyPath){
-      console.log(key,keyPath)
+      
     }
   }
 }

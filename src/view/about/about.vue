@@ -5,7 +5,7 @@
             <div class="main-content">
                 <ul>
                     <li v-for="(list,index) in textList" :key="index">
-                        <h3>{{ list.title }}</h3>
+                        <h3 @click="gotoDetail(list)">{{ list.title }}</h3>
                         <el-row>
                             <el-col :span="8">
                                 <img :src="list.url" alt="">
@@ -15,32 +15,42 @@
                                 <el-button type="danger">阅读全文</el-button>
                             </el-col>
                         </el-row>
+                        <div class="msg">
+                            <span>时间：2019-05-26</span>
+                            <span>作者：刘某某</span>
+                            <span>标签：[JavaScript，vue]</span>
+                            <span>分类：javascript</span>
+                        </div>
                     </li>
-                    
                 </ul>
             </div>
         </div>
         <div class="fr">
-            右侧
+            <AuthorMessage></AuthorMessage>
+            <NewArticle></NewArticle>
+            <HotArticle></HotArticle>
+            <Tag></Tag>
         </div>
     </div>
 </template>
 
 <script>
 import Breadcrumb from '@/components/breadcrumb.vue';
+import AuthorMessage from '@/components/authormessage.vue';
+import NewArticle from '@/components/newarticle.vue';
+import HotArticle from '@/components/hotarticle.vue';
+import TagCloud from '@/components/tagcloud.vue';
 export default {
     components:{
-        "Breadcrumb": Breadcrumb
+        "Breadcrumb": Breadcrumb,
+        "AuthorMessage": AuthorMessage,
+        "NewArticle": NewArticle,
+        "HotArticle": HotArticle,
+        "Tag": TagCloud
     },
     data(){
         return {
-            textList: [
-                {
-                    title: '富文本编辑器quill.js————采坑指南',
-                    imgUrl: '../../assets/about.jpg',
-                    description: '最近一段时间，工作中的需求用到了富文本编辑器，刚好用到了quill.js，开发过程中遇到了各种各样的古怪问题，这篇笔记就总结一下。方便其他童鞋参考。由于小呆在开发中使用Vue框架开发。所以采用vue-quill-editor来进行示范。但本…',
-                }
-            ]
+            textList: []
         }
     },
     created(){
@@ -52,6 +62,13 @@ export default {
             let parmary = {};
             const res = await this.http.get('/about',parmary)
             this.textList = res.data.list;
+        },
+        gotoDetail(list){
+            console.log(list.title)
+            this.$router.push({
+                name: '/detail',
+                query:{title:list.title}
+            })
         }
     }
 }
@@ -91,6 +108,14 @@ export default {
                 right: 0px;
                 bottom: 0px;
             }
+        }
+        .msg{
+            color: #7f8c97;
+            font-size: .8rem;
+            margin-top: 20px;
+            span{
+                margin-left: 20px;
+            }   
         }
     }
 }

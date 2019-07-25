@@ -15,7 +15,7 @@ export default {
         }
     },
     created(){
-        console.log(this.$store.state.breadcrunbList)
+        //console.log(this.$store.state.breadcrunbList)
     }
 }
 </script>
@@ -23,7 +23,7 @@ export default {
 <style scoped lang="scss">
 @import '@/styles/index.scss';
 .breadcrumb{
-    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
     .el-breadcrumb{
         line-height: 45px;
         background-color: #fff;

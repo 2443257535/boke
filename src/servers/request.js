@@ -9,16 +9,17 @@ axios.interceptors.request.use(config => {
 }, error => {
   return Promise.reject(error)
 })
-
+let loadingInstance;
 axios.interceptors.response.use(response => {
   return response
 }, error => {
   return Promise.resolve(error.response)
 })
-
+let obj = this;
 function checkStatus (response) {
   // loading
   // 如果http状态码正常，则直接返回数据
+  loadingInstance.close();
   if (response && (response.status === 200 || response.status === 304 || response.status === 400)) {
     return response
     // 如果不需要除了data之外的数据，可以直接 return response.data
@@ -32,6 +33,7 @@ function checkStatus (response) {
 
 function checkCode (res) {
   // 如果code异常(这里已经包括网络错误，服务器错误，后端抛出的错误)，可以弹出一个错误提示，告诉用户
+  loadingInstance.close();
   if (res.status === -404) {
     alert(res.msg)
   }
@@ -46,6 +48,10 @@ function checkCode (res) {
 
 export default {
   post (url, data) {
+    loadingInstance = Loading.service({
+      text: '拼命加载中...',
+      background: '#333'
+    });
     return axios({
       method: 'post',
       baseURL: 'https://www.easy-mock.com/mock/5d381e025d66d730fd235fb9/boke', //https://cnodejs.org/api/v1
@@ -67,7 +73,10 @@ export default {
     )
   },
   get (url, params) {
-    let loadingInstance = Loading.service(options);
+    loadingInstance = Loading.service({
+      text: '拼命加载中...',
+      background: '#00000040'
+    });
     return axios({
       method: 'get',
       baseURL: 'https://www.easy-mock.com/mock/5d381e025d66d730fd235fb9/boke', //https://cnodejs.org/api/v1
